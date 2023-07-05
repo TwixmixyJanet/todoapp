@@ -60,10 +60,12 @@ todoInput.addEventListener('keydown', function (event) {
         addTask();
     }
 })
+//Event listeners - toggle
+todoList.addEventListener('change', toggleTask);
 
 //Examples of tasks preloaded
 const initialTasks = ['Buy groceries', 'pay bills', 'walk the dog!'];
 initialTasks.forEach((task) => {
     const taskItem = createTaskItem(task);
     todoList.appendChild(taskItem);
-})
+});
