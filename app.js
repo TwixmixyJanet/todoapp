@@ -4,6 +4,9 @@ const todoList = document.getElementById('todo-list');
 
 // console.log("what's going on?")
 
+//localstorage
+const items = JSON.parse(localStorage.getItem('items')) || [];
+
 //Add a task
 const addTask = () => {
     const taskText = todoInput.value.trim();
@@ -38,6 +41,9 @@ const createTaskItem = (taskText) => {
     taskItem.appendChild(taskTextSpan);
     taskItem.appendChild(deleteBtn);
 
+    //localstorage
+    localStorage.setItem('items', JSON.stringify(items));
+
     return taskItem
 };
 
@@ -51,6 +57,7 @@ const deleteTask = (event) => {
 const toggleTask = (event) => {
     const taskItem = event.target.parentNode;
     taskItem.classList.toggle('completed');
+    localStorage.setItem('items', JSON.stringify(items));
 }
 
 //Event listeners - add task
@@ -69,3 +76,6 @@ initialTasks.forEach((task) => {
     const taskItem = createTaskItem(task);
     todoList.appendChild(taskItem);
 });
+
+//Populate list - trying to use localstorage
+populateList(items, todoList);
