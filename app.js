@@ -11,6 +11,9 @@ const addTask = () => {
         //toggle completed
         todoList.appendChild(taskItem);
         todoInput.value = '';
+
+        //Save task to local storage
+        localStorage.setItem('tasks', JSON.stringify(todoList.children));
     }
 }
 
@@ -43,6 +46,11 @@ const createTaskItem = (taskText) => {
 const deleteTask = (event) => {
     const taskItem = event.target.parentNode;
     todoList.removeChild(taskItem);
+
+    //Remove task from local storage
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    tasks.splice(tasks.indexOf(taskItem), 1);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 //Cross out tasks (styling)
@@ -67,3 +75,12 @@ initialTasks.forEach((task) => {
     const taskItem = createTaskItem(task);
     todoList.appendChild(taskItem);
 });
+
+//Get tasks from local storage
+function getTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    if (tasks) {
+        todoList.innerHTML = tasks.map(task => createTaskItem(task));
+    }
+};
+
