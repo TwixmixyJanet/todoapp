@@ -6,11 +6,12 @@ const todoList = document.getElementById('todo-list');
 const addTask = () => {
     const taskText = todoInput.value.trim();
 
-    if(taskText !==''){
+    if(taskText !== ''){
         const taskItem = createTaskItem(taskText)
         //toggle completed
         todoList.appendChild(taskItem);
         todoInput.value = '';
+        saveToLocalStorage();
     }
 }
 
@@ -43,12 +44,14 @@ const createTaskItem = (taskText) => {
 const deleteTask = (event) => {
     const taskItem = event.target.parentNode;
     todoList.removeChild(taskItem);
+    saveToLocalStorage();
 }
 
 //Cross out tasks (styling)
 const toggleTask = (event) => {
     const taskItem = event.target.parentNode;
     taskItem.classList.toggle('completed');
+    saveToLocalStorage();
 }
 
 //Event listeners - add task
@@ -67,3 +70,16 @@ initialTasks.forEach((task) => {
     const taskItem = createTaskItem(task);
     todoList.appendChild(taskItem);
 });
+
+// Load from local storage when DOM is finished loading
+document.addEventListener("DOMContentLoaded", (event) => {
+    const contents = localStorage.getItem("to-do-items");
+    if (contents) {
+      todoList.innerHTML = contents;
+    }
+});
+
+//Save to local storage
+const saveToLocalStorage = () => {
+    localStorage.setItem("to-do-items", todoList.innerHTML);
+ };
